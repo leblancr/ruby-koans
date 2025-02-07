@@ -1,4 +1,5 @@
 = Ruby Koans
+IDE: Intellij
 
 The Ruby Koans walk you along the path to enlightenment in order to learn Ruby.
 The goal is to learn the Ruby language, syntax, structure, and some common
