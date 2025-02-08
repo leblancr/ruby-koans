@@ -127,29 +127,29 @@ EOS
   def test_double_quoted_strings_interpolate_variables
     value = 123
     string = "The value is #{value}"
-    assert_equal __, string
+    assert_equal "The value is 123", string
   end
 
   def test_single_quoted_strings_do_not_interpolate
     value = 123
     string = 'The value is #{value}'
-    assert_equal __, string
+    assert_equal  'The value is #{value}', string
   end
 
   def test_any_ruby_expression_may_be_interpolated
     string = "The square root of 5 is #{Math.sqrt(5)}"
-    assert_equal __, string
+    assert_equal "The square root of 5 is 2.23606797749979", string
   end
 
   def test_you_can_get_a_substring_from_a_string
     string = 'Bacon, lettuce and tomato'
-    assert_equal __, string[7, 3]
-    assert_equal __, string[7..9]
+    assert_equal "let", string[7, 3]
+    assert_equal "let", string[7..9]
   end
 
   def test_you_can_get_a_single_character_from_a_string
     string = 'Bacon, lettuce and tomato'
-    assert_equal __, string[1]
+    assert_equal 'a', string[1]
 
     # Surprised?
   end
@@ -164,9 +164,13 @@ EOS
   end
 
   in_ruby_version('1.9', '2', '3') do
+    # ?a is shorthand for the character 'a' in the form of an integer representing its ASCII value (97).
+    # So this test checks if ?a is equal to 97 in these Ruby versions.
     def test_in_modern_ruby_single_characters_are_represented_by_strings
-      assert_equal __, ?a
-      assert_equal __, ?a == 97
+      puts ?a    # Should print 97
+      puts ?a.class  # Should print Integer
+      assert_equal 'a', ?a # 97
+      assert_equal false, ?a == 97
     end
   end
 
