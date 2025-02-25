@@ -6,10 +6,11 @@ class AboutExceptions < Neo::Koan
   end
 
   def test_exceptions_inherit_from_Exception
-    assert_equal __, MySpecialError.ancestors[1]
-    assert_equal __, MySpecialError.ancestors[2]
-    assert_equal __, MySpecialError.ancestors[3]
-    assert_equal __, MySpecialError.ancestors[4]
+    puts MySpecialError.ancestors
+    assert_equal RuntimeError, MySpecialError.ancestors[1]
+    assert_equal StandardError, MySpecialError.ancestors[2]
+    assert_equal Exception, MySpecialError.ancestors[3]
+    assert_equal Object, MySpecialError.ancestors[4]
   end
 
   def test_rescue_clause
@@ -20,15 +21,16 @@ class AboutExceptions < Neo::Koan
       result = :exception_handled
     end
 
-    assert_equal __, result
+    assert_equal :exception_handled, result
 
-    assert_equal __, ex.is_a?(StandardError), "Should be a Standard Error"
-    assert_equal __, ex.is_a?(RuntimeError),  "Should be a Runtime Error"
+    # The string at the end of the assert_equal is a failure message, and it's not part of the comparison itself.
+    assert_equal true, ex.is_a?(StandardError), "Should be a Standard Error"
+    assert_equal true, ex.is_a?(RuntimeError),  "Should be a Runtime Error"
 
     assert RuntimeError.ancestors.include?(StandardError),
       "RuntimeError is a subclass of StandardError"
 
-    assert_equal __, ex.message
+    assert_equal "Oops", ex.message
   end
 
   def test_raising_a_particular_error
@@ -40,8 +42,8 @@ class AboutExceptions < Neo::Koan
       result = :exception_handled
     end
 
-    assert_equal __, result
-    assert_equal __, ex.message
+    assert_equal :exception_handled, result
+    assert_equal "My Message", ex.message
   end
 
   def test_ensure_clause
@@ -51,16 +53,16 @@ class AboutExceptions < Neo::Koan
     rescue StandardError
       # no code here
     ensure
-      result = :always_run
+      result = :always_run # like finally
     end
 
-    assert_equal __, result
+    assert_equal :always_run, result
   end
 
   # Sometimes, we must know about the unknown
   def test_asserting_an_error_is_raised
     # A do-end is a block, a topic to explore more later
-    assert_raise(___) do
+    assert_raise(MySpecialError) do
       raise MySpecialError.new("New instances can be raised directly.")
     end
   end
